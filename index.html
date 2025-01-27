@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hexagon Zones</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@frc-web-components/networktables"></script>
+</head>
+<body>
+  <div class="hexagon-container">
+    <div class="hexagon" onclick="resetSelection()">
+      <!-- Circles along each edge with labels -->
+      <div class="circle zone-a" onclick="selectCircle(event, 'zone-a', 'valueA')">A</div>
+      <div class="circle zone-b" onclick="selectCircle(event, 'zone-b', 'valueB')">B</div>
+      <div class="circle zone-c" onclick="selectCircle(event, 'zone-c', 'valueC')">C</div>
+      <div class="circle zone-d" onclick="selectCircle(event, 'zone-d', 'valueD')">D</div>
+      <div class="circle zone-e" onclick="selectCircle(event, 'zone-e', 'valueE')">E</div>
+      <div class="circle zone-f" onclick="selectCircle(event, 'zone-f', 'valueF')">F</div>
+      <div class="circle zone-g" onclick="selectCircle(event, 'zone-g', 'valueG')">G</div>
+      <div class="circle zone-h" onclick="selectCircle(event, 'zone-h', 'valueH')">H</div>
+      <div class="circle zone-i" onclick="selectCircle(event, 'zone-i', 'valueI')">I</div>
+      <div class="circle zone-j" onclick="selectCircle(event, 'zone-j', 'valueJ')">J</div>
+      <div class="circle zone-k" onclick="selectCircle(event, 'zone-k', 'valueK')">K</div>
+      <div class="circle zone-l" onclick="selectCircle(event, 'zone-l', 'valueL')">L</div>
+    </div>
+  </div>
+
+  <script>
+    let lastSelectedCircle = null;
+
+    // Highlight the clicked circle and update NetworkTables
+    function selectCircle(event, nodeKey, value) {
+      event.stopPropagation(); // Prevent triggering hexagon click
+
+      // Update NetworkTables
+      const table = NetworkTables.getTable('SmartDashboard');
+      table.setValue(nodeKey, value);
+      console.log(`Set ${nodeKey} to ${value}`);
+
+      // Highlight the selected circle in red
+      if (lastSelectedCircle) {
+        lastSelectedCircle.classList.remove('highlight'); // Remove highlight from the last circle
+      }
+      const clickedCircle = event.target;
+      clickedCircle.classList.add('highlight'); // Add highlight to the current circle
+      lastSelectedCircle = clickedCircle;
+    }
+
+    // Reset the selection when clicking the hexagon
+    function resetSelection() {
+      if (lastSelectedCircle) {
+        lastSelectedCircle.classList.remove('highlight');
+        lastSelectedCircle = null;
+        console.log('Selection canceled');
+      }
+    }
+  </script>
+</body>
+</html>
